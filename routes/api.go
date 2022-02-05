@@ -2,18 +2,22 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
-	"net/http"
+	auth "goapihub/app/http/controllers/api/v1"
+
 )
 
 func RegisterAPIRoutes(r *gin.Engine) {
 	//
 	v1 := r.Group("/v1")
 	{
-		// 注册一个路由
-		v1.GET("/", func(c *gin.Context) {
-			c.JSON(http.StatusOK,gin.H{
-				"Hello":"world",
-			})
-		})
+
+		// 授权相关
+		authGroup := v1.Group("/auth")
+		{
+			suc := new(auth.SignupController)
+			// 判断手机是否注册
+			authGroup.POST("/signup/phone/exist",suc.IsPhoneExist)
+		}
 	}
+
 }
