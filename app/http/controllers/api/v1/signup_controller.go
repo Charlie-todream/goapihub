@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"goapihub/app/models/user"
+	"goapihub/app/requests"
 	"net/http"
 )
 
@@ -28,6 +29,17 @@ func (sc *SignupController) IsPhoneExist(c *gin.Context)  {
 		// 打印错误信息
 		fmt.Println(err.Error())
 		// 出错了，中断请求
+		return
+	}
+
+	// 表单验证
+	errs := requests.ValidateSignupPhoneExist(&requst,c)
+	// errs 返回长度等于0 即通过 大于0有错误发生
+	if len(errs) > 0{
+		// 验证失败，返回422 状态码和错误信息
+		c.AbortWithStatusJSON(http.StatusUnprocessableEntity,gin.H{
+			"errors":errs,
+		})
 		return
 	}
 
