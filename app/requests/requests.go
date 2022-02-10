@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/thedevsaddam/govalidator"
+	"goapihub/pkg/response"
 	"net/http"
 )
 
@@ -24,10 +25,7 @@ func Validate(c *gin.Context, obj interface{}, handler ValidatorFunc) bool {
 	errs := handler(obj, c)
 	// 3. 判断验证是否通过
 	if len(errs) > 0 {
-		c.AbortWithStatusJSON(http.StatusUnprocessableEntity, gin.H{
-			"message": "请求验证不通过，请具体看error",
-			"errors":  errs,
-		})
+		response.ValidationError(c, errs)
 		return false
 	}
 	return true
