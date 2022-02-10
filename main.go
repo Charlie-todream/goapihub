@@ -41,6 +41,11 @@ func main() {
 	bootstrap.SetupRoute(router)
 	//logger.Dump(captcha.NewCaptcha().VerifyCaptcha("OXubTd9Xua8dhdEeGDoY", "028463"), "正确的答案")
 	//logger.Dump(captcha.NewCaptcha().VerifyCaptcha("4EAztsuaTDrotxaUjoEg", "000000"), "错误的答案")
+
+	//sms.NewSMS().Send("这里填入你的手机号", sms.Message{
+	//	Template: config.GetString("sms.aliyun.template_code"),
+	//	Data:     map[string]string{"code": "123456"},
+	//})
 	// 运行服务
 	err := router.Run(":" + config.Get("app.port"))
 
