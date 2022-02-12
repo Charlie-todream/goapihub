@@ -2,6 +2,7 @@ package v1
 
 import (
 	"github.com/gin-gonic/gin"
+	"goapihub/app/models/user"
 	"goapihub/app/requests"
 	"goapihub/pkg/captcha"
 	"goapihub/pkg/logger"
@@ -59,5 +60,30 @@ func (vc *VerifyCodeController) SendUsingEmail(c *gin.Context) {
 		response.Abort500(c, "发送 Email 验证码失败~")
 	} else {
 		response.Success(c)
+	}
+}
+
+func (sc *SignupController) SignupUsingPhone(c *gin.Context){
+	// 1. 表单验证
+	request := requests.SignupUsingPhoneRequest{}
+
+	if ok := requests.Validate(c,&request,requests.SignupUsingPhone);!ok {
+		return
+	}
+
+	// 2. 验证成功，创建数据
+	_user := user.User{
+		Name: request.Name,
+		Phone: request.Phone,
+		Password: request.Password,
+	}
+	_user.Create()
+
+	if _user.ID >0 {
+		response.CreatedJSON(c,gin.H{
+			"data":_user,
+		})
+	}else {
+		response.Abort500(c,"创建用户失败，请稍后尝试~")
 	}
 }
