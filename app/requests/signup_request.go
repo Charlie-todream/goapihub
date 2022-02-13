@@ -1,6 +1,7 @@
 package requests
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/thedevsaddam/govalidator"
 )
@@ -152,6 +153,7 @@ func SignupUsingEmail(data interface{}, c *gin.Context) map[string][]string {
 
 	_data := data.(*SignupUsingEmailRequest)
 	errs = ValidatePasswordConfirm(_data.Password, _data.PasswordConfirm, errs)
+	fmt.Println(_data)
 	errs = ValidateVerifyCode(_data.Email, _data.VerifyCode, errs)
 
 	return errs

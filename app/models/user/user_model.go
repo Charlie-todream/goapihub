@@ -3,6 +3,7 @@ package user
 import (
 	"goapihub/app/models"
 	"goapihub/pkg/database"
+	"goapihub/pkg/hash"
 )
 
 // User 用户模型
@@ -17,4 +18,8 @@ type User struct {
 
 func (userModel *User) Create()  {
 	database.DB.Create(&userModel)
+}
+// ComparePassword 密码是否正确
+func (userModel *User) ComparePassword(_password string) bool {
+	return hash.BcryptCheck(_password, userModel.Password)
 }
