@@ -14,6 +14,7 @@ type User struct {
 	Email string `json:"-"`
 	Phone string `json:"-"`
 	Password string `json:"-"` // 指示json解析器忽略字段 接口返回数据 三个字段会被隐藏
+	models.CommonTimestampsField
 }
 
 func (userModel *User) Create()  {
@@ -23,3 +24,4 @@ func (userModel *User) Create()  {
 func (userModel *User) ComparePassword(_password string) bool {
 	return hash.BcryptCheck(_password, userModel.Password)
 }
+

@@ -87,7 +87,7 @@ func (l GormLogger) Trace(ctx context.Context, begin time.Time, fc func() (strin
 	}
 
 	// 记录所有 SQL 请求
-	//l.logger().Debug("Database Query", logFields...)
+	l.logger().Debug("Database Query", logFields...)
 }
 
 // logger 内用的辅助方法，确保 Zap 内置信息 Caller 的准确性（如 paginator/paginator.go:148）
