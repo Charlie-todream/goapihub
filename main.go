@@ -24,6 +24,7 @@ func main() {
 
 	// new 一个Gin Engine 实例
 	router := gin.New()
+
     // 初始化DB
 	bootstrap.SetupDB()
 	// 初始化 Logger
@@ -47,6 +48,7 @@ func main() {
 	//	Data:     map[string]string{"code": "123456"},
 	//})
 	//verifycode.NewVerifyCode().SendSMS("1500044555")
+
 	// 运行服务
 	err := router.Run(":" + config.Get("app.port"))
 
