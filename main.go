@@ -24,6 +24,10 @@ func main() {
 
 	// new 一个Gin Engine 实例
 	router := gin.New()
+	//router.GET("/test_auth", middlewares.AuthJWT(), func(c *gin.Context) {
+	//	userModel := auth.CurrentUser(c)
+	//	response.Data(c, userModel)
+	//})
 
     // 初始化DB
 	bootstrap.SetupDB()
