@@ -6,8 +6,8 @@ import (
 	sredis "github.com/ulule/limiter/v3/drivers/store/redis"
 	"goapihub/pkg/config"
 	"goapihub/pkg/logger"
-	"strings"
 	"goapihub/pkg/redis"
+	"strings"
 )
 
 // 获取IP
@@ -45,4 +45,5 @@ func GetKeyRouteWithIP(c *gin.Context) string {
 func routeToKeyString(routeName string)  string {
 	routeName = strings.ReplaceAll(routeName,"/","-")
 	routeName = strings.ReplaceAll(routeName,":","_")
+	return routeName
 }

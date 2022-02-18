@@ -3,11 +3,13 @@ package routes
 import (
 	"github.com/gin-gonic/gin"
 	auth "goapihub/app/http/controllers/api/v1"
+	"goapihub/app/http/middlewares"
 )
 
 func RegisterAPIRoutes(r *gin.Engine) {
 	//
 	v1 := r.Group("/v1")
+	v1.Use(middlewares.LimitIP("200-H"))
 	{
 
 		// 授权相关
