@@ -17,7 +17,7 @@ func GetKeyIP(c *gin.Context)  string {
 // 检测CheckRate 请求是否超额
 func CheckRate(c *gin.Context,key string,formatted string) (limiterlib.Context,error){
 	 var context limiterlib.Context
-	 rate,err := limiterlib.NewRateFromFormatted(formatted);
+	 rate,err := limiterlib.NewRateFromFormatted(formatted)
 	 if err != nil {
 	 	logger.LogIf(err)
 	 	return  context,err

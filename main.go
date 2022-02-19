@@ -1,12 +1,14 @@
 package main
 
 import (
-	"flag"
 	"fmt"
-	"github.com/gin-gonic/gin"
+	"github.com/spf13/cobra"
+	"goapihub/app/cmd"
 	"goapihub/bootstrap"
 	btsConfig "goapihub/config"
 	"goapihub/pkg/config"
+	console "goapihub/pkg/pkg"
+	"os"
 )
 
 func init()  {
@@ -14,49 +16,71 @@ func init()  {
 	btsConfig.Initialize()
 }
 
+//func main() {
+//	// 配置初始化，依赖命令行 --env 参数
+//	btsConfig.Initialize()
+//	var env string
+//	flag.StringVar(&env,"env","","加载 .env 文件，如--env=testing 加载的是 .env.testing 文件")
+//	flag.Parse()
+//	config.InitConfig(env)
+//
+//	// new 一个Gin Engine 实例
+//	router := gin.New()
+//    // 初始化DB
+//	bootstrap.SetupDB()
+//	bootstrap.SetupRedis()
+//	bootstrap.SetupLogger()
+//	gin.SetMode(gin.ReleaseMode)
+//	// 初始化路由绑定
+//	bootstrap.SetupRoute(router)
+//	// 运行服务
+//	err := router.Run(":" + config.Get("app.port"))
+//	if err != nil {
+//		fmt.Println(err.Error())
+//	}
+//}
+
 func main() {
-	// 配置初始化，依赖命令行 --env 参数
-	btsConfig.Initialize()
-	var env string
-	flag.StringVar(&env,"env","","加载 .env 文件，如--env=testing 加载的是 .env.testing 文件")
-	flag.Parse()
-	config.InitConfig(env)
 
-	// new 一个Gin Engine 实例
-	router := gin.New()
-	//router.GET("/test_auth", middlewares.AuthJWT(), func(c *gin.Context) {
-	//	userModel := auth.CurrentUser(c)
-	//	response.Data(c, userModel)
-	//})
+	// 应用的主入口，默认调用 cmd.CmdServe 命令
+	var rootCmd = &cobra.Command{
+		Use:   config.Get("app.name"),
+		Short: "A simple forum project",
+		Long:  `Default will run "serve" command, you can use "-h" flag to see all subcommands`,
 
-    // 初始化DB
-	bootstrap.SetupDB()
-	// 初始化 Logger
+		// rootCmd 的所有子命令都会执行以下代码
+		PersistentPreRun: func(command *cobra.Command, args []string) {
 
-	// 初始化 Redis
-	bootstrap.SetupRedis()
-	bootstrap.SetupLogger()
-	// 设置 gin 的运行模式，支持 debug, release, test
-	// release 会屏蔽调试信息，官方建议生产环境中使用
-	// 非 release 模式 gin 终端打印太多信息，干扰到我们程序中的 Log
-	// 故此设置为 release，有特殊情况手动改为 debug 即可
-	gin.SetMode(gin.ReleaseMode)
+			// 配置初始化，依赖命令行 --env 参数
+			config.InitConfig(cmd.Env)
 
-	// 初始化路由绑定
-	bootstrap.SetupRoute(router)
-	//logger.Dump(captcha.NewCaptcha().VerifyCaptcha("OXubTd9Xua8dhdEeGDoY", "028463"), "正确的答案")
-	//logger.Dump(captcha.NewCaptcha().VerifyCaptcha("4EAztsuaTDrotxaUjoEg", "000000"), "错误的答案")
+			// 初始化 Logger
+			bootstrap.SetupLogger()
 
-	//sms.NewSMS().Send("这里填入你的手机号", sms.Message{
-	//	Template: config.GetString("sms.aliyun.template_code"),
-	//	Data:     map[string]string{"code": "123456"},
-	//})
-	//verifycode.NewVerifyCode().SendSMS("1500044555")
+			// 初始化数据库
+			bootstrap.SetupDB()
 
-	// 运行服务
-	err := router.Run(":" + config.Get("app.port"))
+			// 初始化 Redis
+			bootstrap.SetupRedis()
 
-	if err != nil {
-		fmt.Println(err.Error())
+			// 初始化缓存
+		},
+	}
+
+	// 注册子命令
+	rootCmd.AddCommand(
+		cmd.CmdServe,
+		cmd.CmdKey,
+	)
+
+	// 配置默认运行 Web 服务
+	cmd.RegisterDefaultCmd(rootCmd, cmd.CmdServe)
+
+	// 注册全局参数，--env
+	cmd.RegisterGlobalFlags(rootCmd)
+
+	// 执行主命令
+	if err := rootCmd.Execute(); err != nil {
+		console.Exit(fmt.Sprintf("Failed to run app with %v: %s", os.Args, err.Error()))
 	}
 }
