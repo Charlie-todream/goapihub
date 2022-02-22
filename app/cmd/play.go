@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
-	console "goapihub/pkg/pkg"
+	"goapihub/pkg/console"
 	"goapihub/pkg/redis"
 	"time"
 )

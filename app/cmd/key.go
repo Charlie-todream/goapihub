@@ -2,8 +2,8 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
+	"goapihub/pkg/console"
 	"goapihub/pkg/helpers"
-	console "goapihub/pkg/pkg"
 )
 
 var CmdKey = &cobra.Command{

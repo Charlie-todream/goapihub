@@ -5,8 +5,8 @@ import (
 	"github.com/spf13/cobra"
 	"goapihub/bootstrap"
 	"goapihub/pkg/config"
+	"goapihub/pkg/console"
 	"goapihub/pkg/logger"
-	console "goapihub/pkg/pkg"
 )
 
 // CmdServe represents the available web sub-command.
