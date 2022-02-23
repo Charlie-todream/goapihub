@@ -8,3 +8,9 @@ go get github.com/iancoleman/strcase
 
 ####处理英文单复数
 go get github.com/gertd/go-pluralize
+
+生成命令行：go run main.go make model project
+
+go run main.go make apicontroller v1/project
+
+go run main.go make request project
