@@ -3,7 +3,6 @@ package bootstrap
 import (
 	"errors"
 	"fmt"
-	"goapihub/app/models/user"
 	"goapihub/pkg/config"
 	"goapihub/pkg/database"
 	"gorm.io/driver/mysql"
@@ -49,6 +48,6 @@ func SetupDB() {
 
 	database.SQLDB.SetConnMaxLifetime(time.Duration(config.GetInt("database.mysql.max_life_seconds")) * time.Second)
 	// 自动迁移
-	database.DB.AutoMigrate(&user.User{})
+	//database.DB.AutoMigrate(&user.User{})
 
 }
