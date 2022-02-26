@@ -49,6 +49,11 @@ func RegisterAPIRoutes(r *gin.Engine) {
 			authGroup.POST("/verify-codes/email", middlewares.LimitPerRoute("20-H"), vcc.SendUsingEmail)
 			// 图片验证码
 			authGroup.POST("/verify-codes/captcha", middlewares.LimitPerRoute("50-H"), vcc.ShowCaptcha)
+
+			uc := new(auth.UsersController)
+
+			// 获取当前用户
+			authGroup.GET("/user", middlewares.AuthJWT(), uc.CurrentUser)
 		}
 	}
 }
