@@ -14,3 +14,6 @@ go get github.com/gertd/go-pluralize
 go run main.go make apicontroller v1/project
 
 go run main.go make request project
+
+##### 生成假数据我们将使用
+go get github.com/bxcodec/faker/v3
