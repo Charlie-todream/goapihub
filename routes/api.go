@@ -54,6 +54,7 @@ func RegisterAPIRoutes(r *gin.Engine) {
 
 			// 获取当前用户
 			authGroup.GET("/user", middlewares.AuthJWT(), uc.CurrentUser)
+			authGroup.GET("", uc.Index)
 		}
 	}
 }
