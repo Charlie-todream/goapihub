@@ -2,11 +2,11 @@ package database
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 	"goapihub/pkg/config"
 	"gorm.io/gorm"
 	gormlogger "gorm.io/gorm/logger"
-	"errors"
 )
 
 // DB对象
@@ -79,3 +79,8 @@ func deleteMysqlDatabase() error {
 	return nil
 }
 
+func TableName(obj interface{}) string {
+	stmt := &gorm.Statement{DB: DB}
+	stmt.Parse(obj)
+	return stmt.Schema.Table
+}

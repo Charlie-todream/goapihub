@@ -1,6 +1,11 @@
 package user
 
-import "goapihub/pkg/database"
+import (
+	"github.com/gin-gonic/gin"
+	"goapihub/pkg/app"
+	"goapihub/pkg/database"
+	"goapihub/pkg/paginator"
+)
 
 // 模型相关的数据库操作
 
@@ -39,5 +44,18 @@ func GetByEmail(email string) (userModel User) {
 // All 获取所有用户数据
 func All() (users []User) {
 	database.DB.Find(&users)
+	return
+}
+
+// Paginate 分页
+// Paginate 分页内容
+func Paginate(c *gin.Context, perPage int) (users []User, paging paginator.Paging) {
+	paging = paginator.Paginate(
+		c,
+		database.DB.Model(User{}),
+		&users,
+		app.V1URL(database.TableName(&User{})),
+		perPage,
+	)
 	return
 }
