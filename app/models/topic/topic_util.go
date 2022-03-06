@@ -25,13 +25,3 @@ func IsExist(field, value string) bool {
     return count > 0
 }
 
-func Paginate(c *gin.Context, perPage int) (topics []Topic, paging paginator.Paging) {
-    paging = paginator.Paginate(
-        c,
-        database.DB.Model(Topic{}),
-        &topics,
-        app.V1URL(database.TableName(&Topic{})),
-        perPage,
-    )
-    return
-}
