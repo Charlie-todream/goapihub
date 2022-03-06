@@ -81,5 +81,11 @@ func RegisterAPIRoutes(r *gin.Engine) {
 		{
 			linksGroup.GET("", lsc.Index)
 		}
+
+		usersGroup := v1.Group("/users")
+		{
+			usersGroup.GET("", uc.Index)
+			usersGroup.PUT("", middlewares.AuthJWT(), uc.UpdateProfile)
+		}
 	}
 }
