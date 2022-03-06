@@ -5,10 +5,11 @@ import (
     "goapihub/pkg/app"
     "goapihub/pkg/database"
     "goapihub/pkg/paginator"
+    "gorm.io/gorm/clause"
 )
 
 func Get(idstr string) (topic Topic) {
-    database.DB.Where("id", idstr).First(&topic)
+    database.DB.Preload(clause.Associations).Where("id", idstr).First(&topic)
     return
 }
 
