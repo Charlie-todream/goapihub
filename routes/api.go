@@ -81,11 +81,12 @@ func RegisterAPIRoutes(r *gin.Engine) {
 		{
 			linksGroup.GET("", lsc.Index)
 		}
-
+        uc := new(auth.UsersController)
 		usersGroup := v1.Group("/users")
 		{
 			usersGroup.GET("", uc.Index)
 			usersGroup.PUT("", middlewares.AuthJWT(), uc.UpdateProfile)
+			usersGroup.PUT("/email", middlewares.AuthJWT(), uc.UpdateEmail)
 		}
 	}
 }
