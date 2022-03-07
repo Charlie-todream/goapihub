@@ -5,6 +5,7 @@ go 1.16
 require (
 	github.com/KenmyZhang/aliyun-communicate v0.0.0-20180308134849-7997edc57454
 	github.com/bxcodec/faker/v3 v3.7.0
+	github.com/disintegration/imaging v1.6.2 // indirect
 	github.com/gertd/go-pluralize v0.2.0
 	github.com/gin-gonic/gin v1.7.7
 	github.com/go-redis/redis/v8 v8.11.4
@@ -21,6 +22,7 @@ require (
 	github.com/ulule/limiter/v3 v3.9.0
 	go.uber.org/zap v1.20.0
 	golang.org/x/crypto v0.0.0-20220210151621-f4118a5b28e2
+	golang.org/x/image v0.0.0-20191009234506-e7c1f5e7dbb8 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0
 	gorm.io/driver/mysql v1.2.3
 	gorm.io/driver/sqlite v1.2.6
